@@ -67,11 +67,11 @@ This is not an exhaustive list of extra features that could be added to this cod
 
 # Deployment Steps
 
-Start by going to AWS and creating a new EC2 instance. Create a new security group with the following rules:
+Start by going to AWS and creating a new EC2 instance. I selected Ubuntu 20.04 for my OS. Create a new security group with the following rules:
 - SSH allowed only from your PC
 - HTTP (port 80) allowed from any address 
 
-Create an access key save to local machine
+Create an access key and save to local machine
 
 Create an Elastic IP in AWS and associate it with your new EC2 instance.
 In a terminal, ssh into the new instance with the command `ssh -i keyname.pem ubuntu@<ELASTICIP ADDRESS>` and type yes to continue connecting.
@@ -92,7 +92,6 @@ sudo apt-get install -y nginx # install nginx
 
 Configure Nginx
 ```
-
 sudo touch /etc/nginx/sites-available/devops-code-challenge
 echo \
 "server {
@@ -132,6 +131,8 @@ Go to http://[ELASTICIP ADDRESS] for frontend and http://[ELASTICIP ADDRESS]/api
 
 # My Deployed Application
 Frontend: http://34.234.230.102/
+
+
 Backend: http://34.234.230.102/api
 
 
