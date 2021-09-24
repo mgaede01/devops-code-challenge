@@ -90,13 +90,13 @@ npm install -g pm2 # install pm2
 sudo apt-get install -y nginx # install nginx
 ```
 
-Configure Nginx
+Configure Nginx: Use your elastic IP address for the server_name
 ```
 sudo touch /etc/nginx/sites-available/devops-code-challenge
 echo \
 "server {
         listen 80;
-        server_name 54.225.67.228;
+        server_name 34.234.230.102;
 
         location / {
                 proxy_pass http://localhost:3000;
