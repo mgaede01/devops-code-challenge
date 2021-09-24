@@ -5,7 +5,8 @@ nvm install node  # install node
 npm install -g pm2  # install pm2
 sudo apt-get install -y nginx  # install nginx
 
-sudo echo \
+sudo touch /etc/nginx/sites-available/devops-code-challenge
+echo \
 "server {
         listen 80;
         server_name 54.225.67.228;
@@ -17,8 +18,8 @@ sudo echo \
         location /api/ {
                 proxy_pass http://localhost:8080;
         }
-}" \
-/etc/nginx/sites-available/devops-code-challenge
+}" | \
+sudo tee -a /etc/nginx/sites-available/devops-code-challenge
 
 sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /etc/nginx/sites-available/devops-code-challenge /etc/nginx/sites-enabled/
