@@ -128,10 +128,10 @@ cd ~/devops-code-challenge/frontend
 npm ci
 pm2 start npm --name "frontend" -- start
 ```
-Go to http://<ELASTICIP ADDRESS> for frontend and http://<ELASTICIP ADDRESS>/api for backend.
+Go to http://[ELASTICIP ADDRESS] for frontend and http://[ELASTICIP ADDRESS]/api for backend.
 
 # My Deployed Application
-Frontend: http://http://34.234.230.102/
+Frontend: http://34.234.230.102/
 Backend: http://34.234.230.102/api
 
 
