@@ -57,3 +57,81 @@ A few examples of extras for this coding challenge:
 4. Running the application in a serverless environment
 
 This is not an exhaustive list of extra features that could be added to this code challenge. At the end of the day, this section is for you to demonstrate any skills you want to show that’s not captured in the core requirement.
+
+# Tools Needed
+1. EC2
+2. Elastic IP
+3. Terminal to SSH from (I used WSL Ubuntu)
+4. pm2 (for node processes)
+5. nginx (reverse proxy)
+
+# Deployment Steps
+
+Start by going to AWS and creating a new EC2 instance. Create a new security group with the following rules:
+- SSH allowed only from your PC
+- HTTP (port 80) allowed from any address 
+
+Create an access key save to local machine
+
+Create an Elastic IP in AWS and associate it with your new EC2 instance.
+In a terminal, ssh into the new instance with the command `ssh -i keyname.pem ubuntu@<ELASTICIP ADDRESS>` and type yes to continue connecting.
+
+Update packages that may need it
+```
+sudo apt-get update
+```
+
+Use these commands to install tools needed
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash # install nvm
+source ~/.bashrc
+nvm install node # install node
+npm install -g pm2 # install pm2
+sudo apt-get install -y nginx # install nginx
+```
+
+Configure Nginx
+```
+
+sudo touch /etc/nginx/sites-available/devops-code-challenge
+echo \
+"server {
+        listen 80;
+        server_name 54.225.67.228;
+
+        location / {
+                proxy_pass http://localhost:3000;
+        }
+
+        location /api/ {
+                proxy_pass http://localhost:8080;
+        }
+}" | \
+sudo tee -a /etc/nginx/sites-available/devops-code-challenge
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/devops-code-challenge /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+```
+
+Clone the application repo
+```
+git clone https://github.com/mgaede01/devops-code-challenge.git
+```
+
+Start the backend and frontend processes
+```
+cd ~/devops-code-challenge/backend
+npm ci
+pm2 start npm --name "backend" -- start
+
+cd ~/devops-code-challenge/frontend
+npm ci
+pm2 start npm --name "frontend" -- start
+```
+Go to http://<ELASTICIP ADDRESS> for frontend and http://<ELASTICIP ADDRESS>/api for backend.
+
+# My Deployed Application
+Frontend: http://http://34.234.230.102/
+Backend: http://34.234.230.102/api
+
+
